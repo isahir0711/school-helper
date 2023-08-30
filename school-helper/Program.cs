@@ -3,16 +3,26 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using school_helper.DbContext;
+using school_helper.Servicies;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//repositories
+builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+
+
 builder.Services.AddControllers();
+
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddDbContext<SchoolDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
