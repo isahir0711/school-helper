@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using school_helper.DbContext;
 using school_helper.DTOs;
 using school_helper.Entities;
+using System.Security.Claims;
 
 namespace school_helper.Servicies
 {
@@ -23,6 +25,7 @@ namespace school_helper.Servicies
 
         public async Task CreateAssignment(AssignmentDTO assignmentDTO)
         {
+
             var assignmentmaped = mapper.Map<Assignment>(assignmentDTO);
 
             _context.Add(assignmentmaped);

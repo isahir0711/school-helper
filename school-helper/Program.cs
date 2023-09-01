@@ -13,7 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 //repositories
 builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
 
-
 builder.Services.AddControllers();
 
 
@@ -31,6 +30,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opciones =>
+    {
+
         opciones.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = false,
@@ -39,8 +40,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["jwtkey"])),
-            ClockSkew = TimeSpan.Zero
-        }
+            ClockSkew = TimeSpan.Zero,
+
+        };
+        opciones.MapInboundClaims = false;
+    }
     );
 
 builder.Services.AddAuthorization(options =>
