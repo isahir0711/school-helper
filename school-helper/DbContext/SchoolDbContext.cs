@@ -13,9 +13,9 @@ namespace school_helper.DbContext
 
         public DbSet<Assignment> Assignments { get; set; }
 
-        public DbSet<Class> Class { get; set; }
+        public DbSet<Class> Classes { get; set; }
 
-        public DbSet<Day> Days { get; set; }
+        public DbSet<ClassSchedule> ClassSchedules { get; set; }
 
     }
 }

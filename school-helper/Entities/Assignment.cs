@@ -16,5 +16,9 @@ namespace school_helper.Entities
 
         public IdentityUser User { get; set; }
 
+        public int ClassId { get; set; }
+
+        public Class Class { get; set; }
+
     }
 }

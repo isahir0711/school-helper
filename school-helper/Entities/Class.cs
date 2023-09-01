@@ -11,11 +11,11 @@ namespace school_helper.Entities
         [StringLength(30)]
         public string Name { get; set; }
 
-        public List<int> DaysIds { get; set; }
-
         public string UserId { get; set; }
 
         public IdentityUser User { get; set; }
+
+        public List<ClassSchedule> ClassSchedules { get; set; }
 
     }
 }

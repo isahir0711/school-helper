@@ -29,9 +29,18 @@ namespace school_helper.Controllers
             var user = await userManager.FindByEmailAsync(email);
             assignment.UserId = user.Id;
 
-            await assignmentRepository.CreateAssignment(assignment);
+            var result = await assignmentRepository.CreateAssignment(assignment);
 
-            return NoContent();
+            if (result)
+            {
+                return NoContent();
+            }
+
+            return NotFound("No class found");
+
         }
+
+
+        []
     }
 }

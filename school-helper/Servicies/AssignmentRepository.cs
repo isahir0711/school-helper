@@ -10,28 +10,37 @@ namespace school_helper.Servicies
 {
     public interface IAssignmentRepository
     {
-        Task CreateAssignment(AssignmentDTO assignmentDTO);
+        Task<bool> CreateAssignment(AssignmentDTO assignmentDTO);
     }
 
     public class AssignmentRepository : IAssignmentRepository
     {
         private readonly SchoolDbContext _context;
         private readonly IMapper mapper;
+        private readonly IClassesRepository classesRepository;
 
-        public AssignmentRepository(SchoolDbContext context,IMapper mapper)
+        public AssignmentRepository(SchoolDbContext context,IMapper mapper,IClassesRepository classesRepository)
         {
            _context = context;
             this.mapper = mapper;
+            this.classesRepository = classesRepository;
         }
 
-        public async Task CreateAssignment(AssignmentDTO assignmentDTO)
+        public async Task<bool> CreateAssignment(AssignmentDTO assignmentDTO)
         {
+            var existClass = await classesRepository.ExistClass(assignmentDTO.ClassId);
 
-            var assignmentmaped = mapper.Map<Assignment>(assignmentDTO);
+            if (existClass)
+            {
+                var assignmentmaped = mapper.Map<Assignment>(assignmentDTO);
 
-            _context.Add(assignmentmaped);
+                _context.Add(assignmentmaped);
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
 
     }

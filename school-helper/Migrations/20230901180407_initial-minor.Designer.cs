@@ -13,8 +13,8 @@ using school_helper.DbContext;
 namespace school_helper.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    [Migration("20230901041602_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20230901180407_initial-minor")]
+    partial class initialminor
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -264,12 +264,17 @@ namespace school_helper.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Class");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Classes");
                 });
 
-            modelBuilder.Entity("school_helper.Entities.Day", b =>
+            modelBuilder.Entity("school_helper.Entities.ClassSchedule", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -277,12 +282,23 @@ namespace school_helper.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<int>("ClassId")
+                        .HasColumnType("integer");
+
+                    b.Property<TimeOnly>("EndHour")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<TimeOnly>("StartHour")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<string>("WeekDay")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Days");
+                    b.HasIndex("ClassId");
+
+                    b.ToTable("ClassSchedules");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -343,6 +359,31 @@ namespace school_helper.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("school_helper.Entities.Class", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("school_helper.Entities.ClassSchedule", b =>
+                {
+                    b.HasOne("school_helper.Entities.Class", "Class")
+                        .WithMany("ClassSchedules")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+                });
+
+            modelBuilder.Entity("school_helper.Entities.Class", b =>
+                {
+                    b.Navigation("ClassSchedules");
                 });
 #pragma warning restore 612, 618
         }

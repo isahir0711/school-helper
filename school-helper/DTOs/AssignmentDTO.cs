@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace school_helper.DTOs
 {
@@ -11,5 +12,8 @@ namespace school_helper.DTOs
         public bool IsDone { get; set; }
 
         public string UserId { get; set; }
+
+        [Required]
+        public int ClassId { get; set; }
     }
 }

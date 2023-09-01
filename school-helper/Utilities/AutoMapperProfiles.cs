@@ -12,6 +12,9 @@ namespace school_helper.Utilities
 
             CreateMap<Class, ClassDTO>().ReverseMap();
 
+            CreateMap<ClassSchedule, ClassScheduleDTO>().ReverseMap();
+
+            CreateMap<EditClassDTO,Class>().ReverseMap();
         }
     }
 }

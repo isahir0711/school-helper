@@ -1,6 +1,6 @@
 ﻿namespace school_helper.DTOs
 {
-    public class DayDTO
+    public class EditClassDTO
     {
         public string Name { get; set; }
     }

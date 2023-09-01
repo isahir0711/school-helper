@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using school_helper.DTOs;
@@ -22,17 +24,51 @@ namespace school_helper.Controllers
         [HttpPost("Create")]
         public async Task<ActionResult> CreateClass ([FromBody] ClassDTO classDTO)
         {
+            if (classDTO == null)
+            {
+                return BadRequest("Invalid Object Sended");
+            }
+
             await classesRepository.CreateClass(classDTO);
 
             return NoContent();
         }
+
 
         [HttpGet("GetMyClasses")]
         public async Task<ActionResult<List<ClassDTO>>> GetClasses()
         {
             var classes = await classesRepository.GetClasses();
 
-            return classes;
+            return Ok(classes);
         }
+
+
+        [HttpPut("Edit/{id}")]
+        public async Task<ActionResult> Put(int id, [FromBody] EditClassDTO editClassDTO)
+        {
+            var result = await classesRepository.PutClass(id, editClassDTO);
+
+            if (result)
+            {
+                return NoContent();
+            }
+
+            return NotFound();
+        }
+
+        [HttpDelete("Delete/{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var result = await classesRepository.DeleteClass(id);
+
+            if (result)
+            {
+                return NoContent();
+            }
+
+            return NotFound();
+        }
+
     }
 }
