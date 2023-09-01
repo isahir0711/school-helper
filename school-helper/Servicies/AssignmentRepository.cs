@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using school_helper.DbContext;
 using school_helper.DTOs;
 using school_helper.Entities;
@@ -32,5 +33,6 @@ namespace school_helper.Servicies
 
             await _context.SaveChangesAsync();
         }
+
     }
 }

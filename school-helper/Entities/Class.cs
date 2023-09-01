@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace school_helper.Entities
 {
@@ -11,6 +12,10 @@ namespace school_helper.Entities
         public string Name { get; set; }
 
         public List<int> DaysIds { get; set; }
+
+        public string UserId { get; set; }
+
+        public IdentityUser User { get; set; }
 
     }
 }

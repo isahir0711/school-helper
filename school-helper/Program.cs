@@ -12,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 //repositories
 builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+builder.Services.AddScoped<IClassesRepository,ClassesRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 

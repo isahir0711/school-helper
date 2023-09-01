@@ -9,6 +9,9 @@ namespace school_helper.Utilities
         public AutoMapperProfiles() 
         {
             CreateMap<Assignment, AssignmentDTO>().ReverseMap();
+
+            CreateMap<Class, ClassDTO>().ReverseMap();
+
         }
     }
 }
