@@ -22,6 +22,14 @@ namespace school_helper.Controllers
             this.userManager = userManager;
         }
 
+        [HttpGet("GetMyAssignments")]
+        public async Task<List<AssignmentDTO>> Get()
+        {
+            var assignments = await assignmentRepository.GetAssignments();
+
+            return assignments;
+        }
+
         [HttpPost("Create")]
         public async Task<ActionResult> CreateAssignment([FromBody] AssignmentDTO assignment)
         {
@@ -41,6 +49,27 @@ namespace school_helper.Controllers
         }
 
 
-        []
+        [HttpDelete("Delete/{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var result = await assignmentRepository.DeleteAssignment(id);
+
+            if (result)
+            {
+                return NoContent();
+            }
+
+            return NotFound("No assignment with the provided id");
+        }
+
+
+        [HttpPut("Check/{id}")]
+        public async Task<ActionResult> Check(int id)
+        {
+            await assignmentRepository.CheckAssignment(id);
+
+            return NoContent();
+        }
+
     }
 }
