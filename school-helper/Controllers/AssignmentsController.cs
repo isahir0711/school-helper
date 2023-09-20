@@ -22,7 +22,7 @@ namespace school_helper.Controllers
             this.userManager = userManager;
         }
 
-        [HttpGet("GetMyAssignments")]
+        [HttpGet("GetAssignments")]
         public async Task<List<AssignmentDTO>> Get()
         {
             var assignments = await assignmentRepository.GetAssignments();

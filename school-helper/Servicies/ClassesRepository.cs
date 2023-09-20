@@ -13,6 +13,7 @@ namespace school_helper.Servicies
         Task<bool> DeleteClass(int id);
         Task<bool> ExistClass(int id);
         Task<List<ClassDTO>> GetClasses();
+        Task<List<ClassDTO>> GetTodayClasses(string weekDay);
         Task<bool> PutClass(int id, EditClassDTO editClassDTO);
         //Task<bool> PutClass(int id, EditClassDTO editClassDTO);
     }
@@ -65,6 +66,18 @@ namespace school_helper.Servicies
             }
             
             */
+
+            return mapper.Map<List<ClassDTO>>(classesandschedules);
+        }
+
+        public async Task<List<ClassDTO>> GetTodayClasses(string weekDay)
+        {
+            string userId = await userService.GetUserIdAsync();
+
+            var classesandschedules = await _context.Classes.Where(cs => cs.UserId == userId && cs.ClassSchedules.Any(cs => cs.WeekDay == weekDay))
+                .Include(c => c.ClassSchedules)
+                .ToListAsync();
+
 
             return mapper.Map<List<ClassDTO>>(classesandschedules);
         }

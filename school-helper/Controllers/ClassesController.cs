@@ -35,10 +35,18 @@ namespace school_helper.Controllers
         }
 
 
-        [HttpGet("GetMyClasses")]
+        [HttpGet("GetClasses")]
         public async Task<ActionResult<List<ClassDTO>>> GetClasses()
         {
             var classes = await classesRepository.GetClasses();
+
+            return Ok(classes);
+        }
+
+        [HttpGet("GetTodayClasses")]
+        public async Task<ActionResult<List<ClassDTO>>> GetTodayClasses([FromBody] string weekDay)
+        {
+            var classes = await classesRepository.GetTodayClasses(weekDay);
 
             return Ok(classes);
         }
