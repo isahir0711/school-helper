@@ -92,7 +92,7 @@ namespace school_helper.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwtkey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expiration = DateTime.UtcNow.AddDays(1);
+            var expiration = DateTime.UtcNow.AddDays(30);
 
             var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims
                 , expires: expiration, signingCredentials: creds);
