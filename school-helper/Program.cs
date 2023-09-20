@@ -25,18 +25,26 @@ builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
 builder.Services.AddScoped<IClassesRepository,ClassesRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
-});
+builder.Services.AddControllers();
+
+//timeonly converter
+//builder.Services.AddControllers().AddJsonOptions(options =>
+//{
+//    options.JsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
+//});
 
 
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddDbContext<SchoolDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+//postgresql 
+//builder.Services.AddDbContext<SchoolDbContext>(options =>
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+//ssms
+builder.Services.AddDbContext<SchoolDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SSMS")));
 
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()

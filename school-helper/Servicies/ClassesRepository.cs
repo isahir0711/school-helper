@@ -33,6 +33,14 @@ namespace school_helper.Servicies
 
         public async Task CreateClass(ClassDTO classDTO)
         {
+
+            /*temporary substraction of hours*/
+            foreach (var cs in classDTO.ClassSchedules)
+            {
+                cs.StartHour = cs.StartHour.AddHours(-5);
+                cs.EndHour = cs.EndHour.AddHours(-5);
+            }
+
             string userId = await userService.GetUserIdAsync();
 
             classDTO.UserId = userId;

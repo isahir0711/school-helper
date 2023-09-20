@@ -3,7 +3,7 @@
     public class ClassScheduleDTO
     {
         public string WeekDay { get; set; }
-        public TimeOnly StartHour { get; set; }
-        public TimeOnly EndHour { get; set; }
+        public DateTime StartHour { get; set; }
+        public DateTime EndHour { get; set; }
     }
 }
