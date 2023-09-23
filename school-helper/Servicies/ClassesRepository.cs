@@ -10,10 +10,10 @@ namespace school_helper.Servicies
     public interface IClassesRepository
     {
         Task CreateClass(ClassDTO classDTO);
-        Task<bool> DeleteClass(int id);
+        Task<bool> DeleteClass(string name);
         Task<bool> ExistClass(int id);
         Task<List<ClassDTO>> GetClasses();
-        Task<List<ClassDTO>> GetTodayClasses(string weekDay);
+        Task<List<ClassDTO>> GetTodayClasses();
         Task<bool> PutClass(int id, EditClassDTO editClassDTO);
         //Task<bool> PutClass(int id, EditClassDTO editClassDTO);
     }
@@ -78,8 +78,10 @@ namespace school_helper.Servicies
             return mapper.Map<List<ClassDTO>>(classesandschedules);
         }
 
-        public async Task<List<ClassDTO>> GetTodayClasses(string weekDay)
+        public async Task<List<ClassDTO>> GetTodayClasses()
         {
+            string weekDay = DateTime.Now.DayOfWeek.ToString();
+
             string userId = await userService.GetUserIdAsync();
 
             var classesandschedules = await _context.Classes.Where(cs => cs.UserId == userId && cs.ClassSchedules.Any(cs => cs.WeekDay == weekDay))
@@ -112,15 +114,16 @@ namespace school_helper.Servicies
 
         }
 
-        public async Task<bool> DeleteClass(int id)
+        public async Task<bool> DeleteClass(string name)
         {
-            var exists = await _context.Classes.AnyAsync(c => c.Id == id);
+            var userId = await userService.GetUserIdAsync();
+            var exists = await _context.Classes.AsNoTracking().FirstOrDefaultAsync(c => c.Name == name && c.UserId == userId);
 
-            if (exists)
+            if (exists != null)
             {
-                _context.Remove(new Class() { Id = id });
+                _context.Remove(new Class() { Id = exists.Id });
 
-                await RemoveClassSchedules(id);
+                await RemoveClassSchedules(exists.Id);
 
                 await _context.SaveChangesAsync();
                 return true;

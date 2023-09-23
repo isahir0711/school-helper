@@ -30,6 +30,14 @@ namespace school_helper.Controllers
             return assignments;
         }
 
+        [HttpGet("GetTodayAssignments")]
+        public async Task<List<AssignmentDTO>> GetToday()
+        {
+            var assignments = await assignmentRepository.GetTodayAssignments();
+
+            return assignments;
+        }
+
         [HttpPost("Create")]
         public async Task<ActionResult> CreateAssignment([FromBody] AssignmentDTO assignment)
         {

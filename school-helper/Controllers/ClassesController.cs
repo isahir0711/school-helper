@@ -44,9 +44,9 @@ namespace school_helper.Controllers
         }
 
         [HttpGet("GetTodayClasses")]
-        public async Task<ActionResult<List<ClassDTO>>> GetTodayClasses([FromBody] string weekDay)
+        public async Task<ActionResult<List<ClassDTO>>> GetTodayClasses()
         {
-            var classes = await classesRepository.GetTodayClasses(weekDay);
+            var classes = await classesRepository.GetTodayClasses();
 
             return Ok(classes);
         }
@@ -65,10 +65,10 @@ namespace school_helper.Controllers
             return NotFound();
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpDelete("Delete/{name}")]
+        public async Task<ActionResult> Delete(string name)
         {
-            var result = await classesRepository.DeleteClass(id);
+            var result = await classesRepository.DeleteClass(name);
 
             if (result)
             {

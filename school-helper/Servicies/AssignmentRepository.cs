@@ -14,6 +14,7 @@ namespace school_helper.Servicies
         Task<bool> CreateAssignment(AssignmentDTO assignmentDTO);
         Task<bool> DeleteAssignment(int id);
         Task<List<AssignmentDTO>> GetAssignments();
+        Task<List<AssignmentDTO>> GetTodayAssignments();
     }
 
     public class AssignmentRepository : IAssignmentRepository
@@ -92,6 +93,15 @@ namespace school_helper.Servicies
             return mapper.Map<List<AssignmentDTO>>(assignments);
         }
 
+        public async Task<List<AssignmentDTO>> GetTodayAssignments()
+        {
+            var userId = await userService.GetUserIdAsync();
 
+            var todayDate = DateTime.Now;
+
+            var toassignments = await _context.Assignments.Where(ta => ta.UserId == userId && ta.DueDate.Date == todayDate.Date).ToListAsync();
+
+            return mapper.Map<List<AssignmentDTO>>(toassignments);
+        }
     }
 }
