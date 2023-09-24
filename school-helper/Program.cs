@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy.WithOrigins("http://localhost:4200",
-                                              "https://schelper.vercel.app");
+                                              "https://schelper.vercel.app").AllowAnyHeader().AllowAnyMethod();
                       });
 });
 
