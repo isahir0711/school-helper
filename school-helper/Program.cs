@@ -94,7 +94,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 
-app.UseCors();
+//app.UseCors();
+
+app.UseCors("CorsTry");
+
+app.UseRouting();
 
 
 app.UseAuthentication();
