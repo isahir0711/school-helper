@@ -73,19 +73,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     }
     );
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("isAdmin", policy => policy.RequireClaim("role", "admin"));
-});
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("isAdmin", policy => policy.RequireClaim("role", "admin"));
+//});
 
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseHttpsRedirection();
 
 app.UseCors();
 
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
