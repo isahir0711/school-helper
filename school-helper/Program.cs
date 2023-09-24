@@ -14,12 +14,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 string allowedOrigins = builder.Configuration["frontURL"];
 
+//builder.Services.AddCors(options =>
+//{
+//    options.AddDefaultPolicy(builder =>
+//    {
+//        builder.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader();
+//    });
+//});
+
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
-    {
-        builder.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader();
-    });
+    options.AddPolicy(name: "CorsTry",
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200",
+                                              "https://schelper.vercel.app");
+                      });
 });
 
 
