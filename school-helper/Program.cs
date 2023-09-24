@@ -95,10 +95,9 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 
 //app.UseCors();
+app.UseRouting();
 
 app.UseCors("CorsTry");
-
-app.UseRouting();
 
 
 app.UseAuthentication();
